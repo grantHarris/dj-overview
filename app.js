@@ -9,7 +9,7 @@ const port = process.env.PORT || 8080;
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'www/build')));
 
 app.use(bodyParser.json());
 app.use(routes);
