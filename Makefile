@@ -1,13 +1,7 @@
-VERSION := $(shell cat VERSION)
-IMAGE_NAME := ghcr.io/grantharris/dj-overview
-
 all: build
 
 build:
-	docker build -t $(IMAGE_NAME):$(VERSION) .
+	docker-compose -f docker-compose.yml build
 
-push: build
-	docker push $(IMAGE_NAME):$(VERSION)
-
-pull:
-	docker pull $(IMAGE_NAME):$(VERSION)
+run: build
+	docker-compose -f docker-compose.yml up

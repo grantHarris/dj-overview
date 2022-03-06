@@ -3,18 +3,35 @@ const path = require('path');
 
 const router = express.Router();
 
+const cacheDeck = async (client, req) => {
+  let key = {
+    'client': req.ip,
+    'deck': req.params.deck
+  }
+
+  let value = {
+    'body': req.body
+  };
+
+  await client.hSet('deckLoaded', JSON.stringify(key), JSON.stringify(value));
+};
+
+
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, 'www/build', 'index.html'));
 });
 
-router.post("/deckLoaded/:deck", (req, res) => {
+router.post("/deckLoaded/:deck", async (req, res) => {
   let socket = req.app.get('socketIo');
+  let redis = req.app.get('redis');
+
   socket.emit("deckLoaded", {
     "client": req.ip,
     "deck": req.params.deck,
     "body": req.body
   });
 
+  await cacheDeck(redis, req);
   res.send().status(200);
 });
 
