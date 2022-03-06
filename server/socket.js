@@ -15,7 +15,6 @@ const populateCachedDeckData = async (client, socket) => {
 
 const connection = async (client) => async (socket) => {
   console.log('New web client connected');
-
   populateCachedDeckData(client, socket);
 
   socket.on('disconnect', () => {
