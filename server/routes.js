@@ -57,7 +57,7 @@ router.post('/deckLoaded/:deck', async (req, res) => {
     'body': req.body
   });
 
-  cacheDeck(redis, req);
+  cacheDeck(req, redis);
   res.send().status(200);
 });
 
@@ -71,7 +71,7 @@ router.post('/updateDeck/:deck', (req, res) => {
     'body': req.body
   });
 
-  cacheUpdateDeck(redis, req);
+  //cacheUpdateDeck(req, redis);
 
   res.send().status(200);
 });

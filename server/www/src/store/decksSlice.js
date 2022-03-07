@@ -28,20 +28,25 @@ const initDeckstate = {
 export const decksSlice = createSlice({
   name: 'decks',
   initialState: {
-    A: initDeckstate,
-    B: initDeckstate,
-    C: initDeckstate,
-    D: initDeckstate
   },
   reducers: {
     setElapsedTime: (state, action) => {
-      state[action.payload.deck].elapsedTime = action.payload.elapsedTime
+      if(state[action.payload.client] && state[action.payload.client][action.payload.deck]){
+        state[action.payload.client][action.payload.deck].elapsedTime = action.payload.elapsedTime
+      }
     },
     setNextCuePos: (state, action) => {
-      state[action.payload.deck].nextCuePos = action.payload.nextCuePos
+      if(state[action.payload.client] && state[action.payload.client][action.payload.deck]){
+        state[action.payload.client][action.payload.deck].nextCuePos = action.payload.nextCuePos
+      }
     },
     loadDeck: (state, action) => {
-      state[action.payload.deck] = action.payload.body
+      state[action.payload.client] = state[action.payload.client] || {};
+
+      state[action.payload.client][action.payload.deck] = {
+        ...initDeckstate,
+        ...action.payload.body
+      }
     },
   },
 })

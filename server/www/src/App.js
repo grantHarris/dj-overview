@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import socketIOClient from "socket.io-client";
 
-import Deck from './traktor/deck'
+import Traktor from './traktor/traktor'
 
 import store from './store/store'
 
@@ -23,6 +23,7 @@ function App() {
 
     socket.on("deckLoaded", data => {
       store.dispatch(loadDeck({
+        client: data.client,
         deck: data.deck,
         body: data.body
       }));
@@ -31,6 +32,7 @@ function App() {
     socket.on("updateDeck", data => {
       console.log('updateDeck', data, 'ssss');
       store.dispatch(setElapsedTime({
+        client: data.client,
         deck: data.deck,
         elapsedTime: data.body.elapsedTime
       }));
@@ -55,22 +57,16 @@ function App() {
   }, []);
 
 
-  const deckA = useSelector(state => state.decks['A'])
-  const deckB = useSelector(state => state.decks['B'])
-  const deckC = useSelector(state => state.decks['C'])
-  const deckD = useSelector(state => state.decks['D'])
-
-
+  const decks = useSelector(state => state.decks)
 
   return (
     <div className="App">
-
       <header className="App-header">
-        <Deck deck={deckA} name="A" />
-        <Deck deck={deckB} name="B" />
-        <Deck deck={deckC} name="C" />
-        <Deck deck={deckD} name="D" />
-
+        {Object.keys(decks)
+        .map(xxx=>(
+          <Traktor name={xxx} traktor={decks[xxx]} />
+        ))
+      }
       </header>
     </div>
   );

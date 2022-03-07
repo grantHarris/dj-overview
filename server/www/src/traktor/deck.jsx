@@ -45,9 +45,3 @@ class Deck extends React.Component {
 }
 
 export default Deck;
-
-
-// nextCuePos
-// resultingKey
-// isSynced
-// isKeyLockOn
